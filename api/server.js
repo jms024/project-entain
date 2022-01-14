@@ -28,5 +28,8 @@ app.get("/", (req, res) => {
     res.json({message: "API up and running!"});
 })
 
+// Import routes
+require("./routes/generic.route")(app, 'videos');
+
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
