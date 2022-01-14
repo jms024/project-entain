@@ -5,10 +5,10 @@ import MainContainer from "../MainContainer";
 
 const Container = styled.div`
     display: flex;
-    height: 100px;
+    height: 200px;
     justify-content: center;
     align-items: center;
-    background-color: #DFECF2;
+    background-color: ${(props) => props.theme.color.darker};
 `
 
 const Field = styled(TextField)`

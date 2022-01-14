@@ -7,7 +7,8 @@ const size = {
 
 export default {
     color: {
-        main: 'blue'
+        main: '#DFECF2',
+        darker: '#C1CCD1'
     },
     size,
     breakpoint: {
