@@ -23,13 +23,23 @@ app.use(upload.array());
 app.use(express.static('public'));
 app.use(bodyParser.raw());
 
-// Route for root access
-app.get("/", (req, res) => {
-    res.json({message: "API up and running!"});
-})
+// Connect to the database
+const db = require('./models');
+db.sequelize.sync();
 
-// Import routes
-require("./routes/generic.route")(app, 'videos');
+const initializeApp = () => {
+    // Route for root access
+    app.get("/", (req, res) => {
+        res.json({message: "API up and running!"});
+    })
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+    // Import routes
+    require("./routes/generic.route")(app, 'movies');
+
+    app.listen(PORT, HOST);
+    console.log(`Running on http://${HOST}:${PORT}`);
+}
+
+// Populate database
+const moviesController = require('./controllers/movie.controller');
+moviesController.populateDb().then(() => initializeApp());
