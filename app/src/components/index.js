@@ -1,10 +1,11 @@
 import React from 'react';
-import {ThemeProvider, createGlobalStyle} from 'styled-components';
+import styled, {ThemeProvider, createGlobalStyle} from 'styled-components';
 
 import theme from "../style/theme";
-import MainContainer from "./MainContainer";
+import FluidContainer from "./FluidContainer";
 import AppBar from "./AppBar";
 import Gallery from "./Gallery"
+import SideBar from "./SideBar";
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -16,15 +17,27 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
+const Body = styled.section`
+    display: flex;
+    flex-direction: column;
+    
+    @media ${(props) => props.theme.breakpoint.md}{
+        flex-direction: row;
+    }
+`
+
 export default React.memo((props) => {
 
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyle />
             <AppBar />
-            <MainContainer>
-                <Gallery />
-            </MainContainer>
+            <FluidContainer>
+                <Body>
+                    <SideBar />
+                    <Gallery />
+                </Body>
+            </FluidContainer>
         </ThemeProvider>
     )
 })

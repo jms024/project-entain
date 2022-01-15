@@ -1,12 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from "styled-components";
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     display: flex;
     justify-content: center;
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
     width: ${(props) => props.theme.size.xs};
                 
     @media ${(props) => props.theme.breakpoint.sm}{
@@ -19,13 +18,3 @@ const Container = styled.div`
         width: ${(props) => props.theme.size.lg};
     }
 `;
-
-export default React.memo((props) => {
-    return (
-        <Wrapper>
-            <Container>
-                {props.children}
-            </Container>
-        </Wrapper>
-    )
-});
