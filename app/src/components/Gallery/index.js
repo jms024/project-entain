@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { LinearProgress } from "@mui/material";
 
-import { Container, Thumb } from "./style";
+import Card from './Card';
+import { Container } from "./style";
 import useApi from "../../utils/useApi";
 import useImageConfig from "../../utils/useImageConfig";
 
@@ -20,18 +21,12 @@ export default React.memo((props) => {
         })
     }, [])
 
-    console.log(movies);
-    console.log('imageConfig');
-    console.log(imageConfig);
-
     if (!movies) return <LinearProgress />
 
     return(
         <Container>
             { movies.map((movie) => (
-                <Thumb key={`${movie.id}`}>
-                    { movie.title }
-                </Thumb>
+                <Card movie={movie} />
             )) }
         </Container>
     )
