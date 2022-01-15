@@ -7,7 +7,7 @@ export default () => {
         imageConfig = useSelector((state) => state.imageConfig);
 
     return {
-        store: (data) => dispatch(storeImageConfig(data)),
+        set: (data) => dispatch(storeImageConfig(data)),
         get: imageConfig
     }
 }

@@ -13,11 +13,11 @@ export default React.memo((props) => {
 
     useEffect(() => {
         Promise.all([
-            api.get({path: 'movies'}),       // 0
-            api.get({path: 'configuration'}) // 1
+            api.get({path: 'movies/discover'}), // 0
+            api.get({path: 'configuration'})    // 1
         ]).then((values) => {
             setMovies(values[0]);
-            imageConfig.store(values[1]);
+            imageConfig.set(values[1]);
         })
     }, [])
 
@@ -26,7 +26,7 @@ export default React.memo((props) => {
     return(
         <Container>
             { movies.map((movie) => (
-                <Card movie={movie} />
+                <Card movie={movie} key={movie.theMovieDbId}/>
             )) }
         </Container>
     )

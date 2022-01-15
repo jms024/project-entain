@@ -19,6 +19,7 @@ export const Container = styled.aside`
 export const Tab = styled.div`
     padding: 15px 10px;
     cursor: pointer;
+    background-color: ${(props) => props.selected ? '#323335' : 'unset'};
     &:hover {
         background-color: #323335;
     }
