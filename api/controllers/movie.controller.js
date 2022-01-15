@@ -1,8 +1,6 @@
 const db = require('../models');
 const Movies = db.movies;
 
-const api = require('../utils/api.util');
-
 const dataMapping = {
     title: 'original_title',
     backdrop_path: 'backdrop_path',
@@ -19,27 +17,6 @@ const sanitizeMovie = (datum) => {
         overview: datum[dataMapping.overview],
         release_date: datum[dataMapping.release_date]
     }
-}
-
-const writeToDb = (datum) => {
-    return Movies.findOrCreate({
-        where: { title: datum.original_title },
-        defaults: sanitizeMovie(datum)
-    })
-}
-
-exports.populateDb = () => {
-    return new Promise((resolve, reject) => {
-        api.get('discover/movie')
-            .then(({data: {results}}) => {
-                Promise.all(
-                    results.map((datum) => writeToDb(datum))
-                ).then(() => {
-                    console.log('Movies table populated')
-                    resolve()
-                })
-            }).catch((err) => reject(`API request failed: ${err.message}`));
-    })
 }
 
 exports.discover = (req, res) => {

@@ -24,4 +24,9 @@ db.sequelize = sequelize;
 db.movies = require("./movie.model")(sequelize, Sequelize);
 db.genres = require("./genre.model")(sequelize, Sequelize);
 
+// Relationships
+db.movie_genres = sequelize.define('Movie_Genre', {}, { timestamps: false });
+db.movies.belongsToMany(db.genres, { through: db.movie_genres });
+db.genres.belongsToMany(db.movies, { through: db.movie_genres });
+
 module.exports = db;

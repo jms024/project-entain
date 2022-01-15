@@ -30,23 +30,16 @@ app.use(bodyParser.raw());
 const db = require('./models');
 db.sequelize.sync();
 
-const initializeApp = () => {
-    // Route for root access
-    app.get("/", (req, res) => {
-        res.json({message: "API up and running!"});
-    })
+// Route for root access
+app.get("/", (req, res) => {
+    res.json({message: "API up and running!"});
+})
 
-    // Import routes
-    require("./routes/movie.route")(app);
-    require("./routes/genre.route")(app, 'genres');
-    require("./routes/configuration.route")(app, 'configuration');
+// Import routes
+require("./routes/movie.route")(app);
+require("./routes/genre.route")(app, 'genres');
+require("./routes/configuration.route")(app, 'configuration');
 
-    app.listen(PORT, HOST);
-    console.log(`Running on http://${HOST}:${PORT}`);
-}
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
 
-// Populate database
-Promise.all([
-    moviesController.populateDb(),
-    genreController.populateDb()
-]).then(() => initializeApp());
