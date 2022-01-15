@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 
-import { Container, Tab } from './style';
+import Handle from './Handle';
+import Menu from './Menu';
+import { Container } from './style';
 
 export default React.memo((props) => {
+    const isOpen = useSelector((state) => state.sideBar);
 
     return (
-        <Container>
-            <Tab>Genre 1</Tab>
-            <Tab>Genre 2</Tab>
-            <Tab>Genre 3</Tab>
+        <Container open={isOpen}>
+            <Handle />
+            <Menu />
         </Container>
     )
 })

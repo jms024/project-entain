@@ -4,12 +4,13 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    flex: 1;
+    flex: auto;
     
-     @media ${(props) => props.theme.breakpoint.md}{
-        flex: 4;
-    }
 `
+
+// @media ${(props) => props.theme.breakpoint.md}{
+//     flex: 4;
+// }
 
 export const Section = styled.div`
     display: flex;

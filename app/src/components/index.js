@@ -1,6 +1,9 @@
 import React from 'react';
 import styled, {ThemeProvider, createGlobalStyle} from 'styled-components';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux';
 
+import mainReducer from '../reducers';
 import theme from "../style/theme";
 import FluidContainer from "./FluidContainer";
 import AppBar from "./AppBar";
@@ -27,17 +30,20 @@ const Body = styled.section`
 `
 
 export default React.memo((props) => {
+    const store = createStore(mainReducer);
 
     return (
-        <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <AppBar />
-            <FluidContainer>
-                <Body>
-                    <SideBar />
-                    <Gallery />
-                </Body>
-            </FluidContainer>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                <AppBar />
+                <FluidContainer>
+                    <Body>
+                        <SideBar />
+                        <Gallery />
+                    </Body>
+                </FluidContainer>
+            </ThemeProvider>
+        </Provider>
     )
 })
