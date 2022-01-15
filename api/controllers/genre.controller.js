@@ -1,10 +1,10 @@
 const db = require('../models');
-const Genre = db.genre;
+const Genres = db.genres;
 
 const api = require('../utils/api.util');
 
 const writeToDb = (datum) => {
-    return Genre.findOrCreate({
+    return Genres.findOrCreate({
         where: { name: datum.name },
         defaults: {
             name: datum.name,

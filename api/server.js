@@ -39,6 +39,7 @@ const initializeApp = () => {
     // Import routes
     require("./routes/generic.route")(app, 'movies');
     require("./routes/generic.route")(app, 'genres');
+    require("./routes/configuration.route")(app, 'configuration');
 
     app.listen(PORT, HOST);
     console.log(`Running on http://${HOST}:${PORT}`);

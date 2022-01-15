@@ -22,6 +22,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.movies = require("./movie.model")(sequelize, Sequelize);
-db.genre = require("./genre.model")(sequelize, Sequelize);
+db.genres = require("./genre.model")(sequelize, Sequelize);
 
 module.exports = db;
