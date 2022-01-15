@@ -6,6 +6,9 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 
+const moviesController = require('./controllers/movie.controller');
+const genreController = require('./controllers/genre.controller');
+
 // Config
 const PORT = 8080;
 const HOST = '0.0.0.0';
@@ -35,11 +38,14 @@ const initializeApp = () => {
 
     // Import routes
     require("./routes/generic.route")(app, 'movies');
+    require("./routes/generic.route")(app, 'genres');
 
     app.listen(PORT, HOST);
     console.log(`Running on http://${HOST}:${PORT}`);
 }
 
 // Populate database
-const moviesController = require('./controllers/movie.controller');
-moviesController.populateDb().then(() => initializeApp());
+Promise.all([
+    moviesController.populateDb(),
+    genreController.populateDb()
+]).then(() => initializeApp());
