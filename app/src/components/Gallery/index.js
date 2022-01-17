@@ -5,27 +5,28 @@ import Card from './Card';
 import { Container } from "./style";
 import useApi from "../../utils/useApi";
 import useImageConfig from "../../utils/useImageConfig";
+import useMoviesList from "../../utils/useMoviesList";
 
 export default React.memo((props) => {
-    const [movies, setMovies] = useState(null),
-        api = useApi(),
-        imageConfig = useImageConfig();
+    const api = useApi(),
+        imageConfig = useImageConfig(),
+        moviesList = useMoviesList();
 
     useEffect(() => {
         Promise.all([
-            api.get({path: 'movies/discover'}), // 0
+            api.get({path: 'movies'}), // 0
             api.get({path: 'configuration'})    // 1
         ]).then((values) => {
-            setMovies(values[0]);
+            moviesList.set(values[0]);
             imageConfig.set(values[1]);
         })
     }, [])
 
-    if (!movies) return <LinearProgress />
+    if (!moviesList.get) return <LinearProgress />
 
     return(
         <Container>
-            { movies.map((movie) => (
+            { moviesList.get.map((movie) => (
                 <Card movie={movie} key={movie.theMovieDbId}/>
             )) }
         </Container>
