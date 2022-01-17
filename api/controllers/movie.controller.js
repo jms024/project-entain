@@ -1,65 +1,66 @@
 const db = require('../models');
+const { Op } = require("sequelize");
 const Movies = db.movies;
+const Genres = db.genres;
 
-const dataMapping = {
-    title: 'original_title',
-    backdrop_path: 'backdrop_path',
-    theMovieDbId: 'id',
-    overview: 'overview',
-    release_date: 'release_date'
-}
+const { getFilterParams, getSortParams, getLimitOffset } = require("../utils/queryParams.util");
 
-const sanitizeMovie = (datum) => {
-    return {
-        title: datum[dataMapping.title],
-        backdrop_path: datum[dataMapping.backdrop_path],
-        theMovieDbId: datum[dataMapping.theMovieDbId],
-        overview: datum[dataMapping.overview],
-        release_date: datum[dataMapping.release_date]
+const findAll = (req, res) => {
+    const { filter, sort, range } = req.query,
+        associates = ['genre'];
+
+    // Defaults
+    let where = {};
+    let order = [['id', 'DESC']];
+    let limit = null;
+    let offset = null;
+
+    // Handle associate filter
+    let associateWhere = {};
+    if (filter && JSON.parse(filter).genre) {
+        associateWhere.id = JSON.parse(filter).genre;
     }
+
+    if (filter) where = getFilterParams(filter, associates);
+    if (sort) order = getSortParams(sort);
+    if (range) {
+        limit = getLimitOffset(range).limit;
+        offset = getLimitOffset(range).offset;
+    }
+
+    Movies.findAll({
+        where, order, limit, offset,
+        include: {
+            model: Genres,
+            through: {attributes: []},
+            where: associateWhere,
+            required: true
+        }
+    }).then((data) => {
+
+        console.log('THEN');
+
+        res.set('Content-Range', data.length);
+        res.set('Access-Control-Expose-Headers', 'Content-Range');
+        res.send(data);
+    }).catch(({message}) => {
+        res.status(500).send(`Error occurred: ${message}`);
+    })
 }
 
-exports.discover = (req, res) => {
-    const { query } = req,
-        {filter, sort} = query;
-    let where, order;
+exports.findAll = findAll;
 
-    if (filter) where = JSON.parse(filter);
-    if (sort) order = [JSON.parse(sort)];
+exports.findByPk = (req, res) => {
+    const { id } = req.params;
 
-    Movies.findAll({where, order})
+    if (!id) return res.status(400).send('ID param is required');
+
+    Movies.findByPk(id)
         .then((data) => {
-            res.set('Content-Range', data.length);
-            res.set('Access-Control-Expose-Headers', 'Content-Range');
-            return res.send(data);
+            if (!data) return res.status(404).send('Movie not found');
+            res.send(data.toJSON());
         })
-        .catch((error) => res.status(500).send(`Something went wrong: ${error.message}`));
-}
-
-exports.findByTitle = (req, res) => {
-    const { title } = req.query;
-
-    if (!title) return res.status(400).send('Title param is required');
-
-    return api.get('search/movie',{query: title})
-        .then(({data}) => {
-            const responseData = data.results.map((datum) => (
-                sanitizeMovie(datum)
-            ));
-            res.send(responseData);
-        });
-}
-
-exports.findByGenre = (req, res) => {
-    const { genre } = req.query;
-
-    if (!genre) return res.status(400).send('Genre param is required');
-
-    return api.get('discover/movie', {query: {with_genres: genre}})
-        .then(({data}) => {
-            const responseData = data.results.map((datum) => (
-                sanitizeMovie(datum)
-            ));
-            res.send(responseData);
-        });
+        .catch(({message}) => {
+            res.status(500).send(`Error occurred: ${message}`);
+        })
 }

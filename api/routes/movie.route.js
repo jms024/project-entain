@@ -1,7 +1,7 @@
 module.exports = (app) => {
     const controller = require("../controllers/movie.controller");
 
-    app.get(`/movies/discover`, (req, res) => controller.discover(req, res));
-    app.get(`/movies/find`, (req, res) => controller.findByTitle(req, res));
-    app.get(`/movies/genre`, (req, res) => controller.findByGenre(req, res));
+    app.get(`/movies`, (req, res) => controller.findAll(req, res));
+    app.get(`/movies/:id`, (req, res) => controller.findByPk(req, res));
+    app.get(`/movies/genre/:genre`, (req, res) => controller.findByGenre(req, res));
 };

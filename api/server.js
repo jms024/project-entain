@@ -6,9 +6,6 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 
-const moviesController = require('./controllers/movie.controller');
-const genreController = require('./controllers/genre.controller');
-
 // Config
 const PORT = 8080;
 const HOST = '0.0.0.0';
