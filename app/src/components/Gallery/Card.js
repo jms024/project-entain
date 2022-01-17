@@ -4,10 +4,10 @@ import Thumb from './Thumb';
 import { Card, Title } from "./style";
 
 export default React.memo((props) => {
-    const { movie } = props;
+    const { movie, onClick } = props;
 
     return (
-        <Card>
+        <Card onClick={() => onClick(movie)}>
             <Thumb movie={movie} />
             <Title>{ movie.title }</Title>
         </Card>

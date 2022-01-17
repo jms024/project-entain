@@ -7,8 +7,13 @@ const size = {
 
 export default {
     color: {
-        main: '#DFECF2',
-        darker: '#C1CCD1'
+        primary: '#C1CCD1',
+        secondary: '#1b1c1e',
+        hover: '#323335',
+        text: {
+            primary: '#aeafb3',
+            secondary: '#1b1c1e'
+        }
     },
     size,
     breakpoint: {

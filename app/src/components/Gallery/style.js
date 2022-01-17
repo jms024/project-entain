@@ -5,6 +5,11 @@ export const Container = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     flex: auto;
+    
+    &.no-results {
+        justify-content: center;
+        padding-top: ${(props) => props.theme.spacing}
+    }
 `
 
 export const Card = styled.div`
@@ -12,6 +17,8 @@ export const Card = styled.div`
     flex: 1;
     height: auto;
     flex-basis: 100%;
+    cursor: pointer;
+    overflow: hidden;
     
     @media ${(props) => props.theme.breakpoint.sm}{
         flex-basis: 50%;
@@ -28,6 +35,11 @@ export const Picture = styled.picture`
     display: flex;
     width: 100%;
     height: 100%;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.2);
+    }
     
     & img {
         width: 100%;
@@ -40,7 +52,7 @@ export const Title = styled.div`
     position: absolute;
     left: 0;
     bottom: 0;
-    z-index: 10;
+    z-index: 5;
     display: flex;
     justify-content: center;
     width: 100%;

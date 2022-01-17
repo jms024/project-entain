@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
 const Body = styled.section`
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
     
     @media ${(props) => props.theme.breakpoint.md}{
         flex-direction: row;
