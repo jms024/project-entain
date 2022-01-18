@@ -9,12 +9,6 @@ const instance = axios.create({
 });
 
 exports.get = (endpoint, params) => {
-
-    console.log('endpoint');
-    console.log(endpoint);
-    console.log('params');
-    console.log(params);
-
     return instance.get(`/${endpoint}`, { params: {...params} })
         .then((response) => response)
         .catch((error) => Promise.reject(error));

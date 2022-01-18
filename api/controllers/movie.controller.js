@@ -5,7 +5,7 @@ const Genres = db.genres;
 
 const { getFilterParams, getSortParams, getLimitOffset } = require("../utils/queryParams.util");
 
-const findAll = (req, res) => {
+exports.findAll = (req, res) => {
     const { filter, sort, range } = req.query,
         associates = ['genre'];
 
@@ -21,6 +21,7 @@ const findAll = (req, res) => {
         associateWhere.id = JSON.parse(filter).genre;
     }
 
+    // Handle other filters
     if (filter) where = getFilterParams(filter, associates);
     if (sort) order = getSortParams(sort);
     if (range) {
@@ -28,6 +29,7 @@ const findAll = (req, res) => {
         offset = getLimitOffset(range).offset;
     }
 
+    // Run query
     Movies.findAll({
         where, order, limit, offset,
         include: {
@@ -37,9 +39,6 @@ const findAll = (req, res) => {
             required: true
         }
     }).then((data) => {
-
-        console.log('THEN');
-
         res.set('Content-Range', data.length);
         res.set('Access-Control-Expose-Headers', 'Content-Range');
         res.send(data);
@@ -47,8 +46,6 @@ const findAll = (req, res) => {
         res.status(500).send(`Error occurred: ${message}`);
     })
 }
-
-exports.findAll = findAll;
 
 exports.findByPk = (req, res) => {
     const { id } = req.params;

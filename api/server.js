@@ -5,12 +5,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
+const app = express();
 
 // Config
 const PORT = 8080;
 const HOST = '0.0.0.0';
-
-const app = express();
 
 // Initialize CORS
 app.use(cors());
