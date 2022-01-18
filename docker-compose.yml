@@ -1,5 +1,14 @@
 version: "3.9"
 services:
+  app:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+      - nodeModulesApp:/www/node_modules
+    ports:
+      - 3000:3000
   api:
     build:
       context: ./api
@@ -7,7 +16,7 @@ services:
     restart: always
     volumes:
       - ./api:/www
-      - nodemodules:/www/node_modules
+      - nodeModulesApi:/www/node_modules
     ports:
       - 8080:8080
   db:
@@ -28,5 +37,6 @@ services:
     volumes:
       - my-db:/var/lib/mysql
 volumes:
-  nodemodules: {}
+  nodeModulesApi: {}
+  nodeModulesApp: {}
   my-db:
